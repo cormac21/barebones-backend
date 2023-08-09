@@ -2,17 +2,22 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-const mysql = require('mysql')
+const mysql = require('mysql2')
 const connection = mysql.createConnection({
   host: 'localhost',
-  user: 'dbuser',
-  password: 's3kreee7',
-  database: 'my_db'
+  port: '3307',
+  user: 'barebonesuser',
+  password: 'barebones',
+  database: 'barebones-db'
 })
 
 app.get('/', (req, res) => {
-
-  res.send('Hello World!')
+  connection.query('SELECT * from usuario', (err, rows, fields) => {
+    if (err) throw err
+    console.log('The solution is: ', rows[0].solution)
+    res.send(rows);
+  })
+  
 })
 
 app.listen(port, () => {
